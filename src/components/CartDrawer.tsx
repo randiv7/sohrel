@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { X, Plus, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
 
 const CartDrawer: React.FC = () => {
@@ -122,9 +122,13 @@ const CartDrawer: React.FC = () => {
             </div>
 
             {/* Checkout Button */}
-            <button className="w-full btn-primary mb-4">
+            <Link 
+              to="/checkout" 
+              onClick={closeCart}
+              className="w-full btn-primary mb-4 block text-center"
+            >
               CHECKOUT
-            </button>
+            </Link>
 
             {/* Guest Checkout */}
             <div className="flex items-center justify-center space-x-2 text-gray-600">

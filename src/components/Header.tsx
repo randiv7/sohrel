@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, User, Heart, ShoppingBag, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 
 interface HeaderProps {
   onSearchToggle: () => void;
@@ -13,6 +13,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onSearchToggle, onMenuToggle, isMenuOpen }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { getTotalItems, openCart } = useCart();
+  const { getTotalItems: getWishlistTotal } = useWishlist();
   const location = useLocation();
 
   useEffect(() => {
@@ -102,19 +103,26 @@ const Header: React.FC<HeaderProps> = ({ onSearchToggle, onMenuToggle, isMenuOpe
               <Search size={20} />
             </button>
             
-            <button 
+            <Link 
+              to="/account"
               className="hidden md:block p-2 hover:bg-gray-100 transition-colors"
               aria-label="Account"
             >
               <User size={20} />
-            </button>
+            </Link>
             
-            <button 
-              className="hidden md:block p-2 hover:bg-gray-100 transition-colors"
+            <Link 
+              to="/wishlist"
+              className="hidden md:block relative p-2 hover:bg-gray-100 transition-colors"
               aria-label="Wishlist"
             >
               <Heart size={20} />
-            </button>
+              {getWishlistTotal() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-scale-in">
+                  {getWishlistTotal()}
+                </span>
+              )}
+            </Link>
             
             <button
               onClick={openCart}

@@ -1,7 +1,8 @@
-
 import React from 'react';
 import { User, Heart, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useWishlist } from '@/hooks/useWishlist';
+import { useCart } from '@/hooks/useCart';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -9,6 +10,9 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
+  const { getTotalItems: getWishlistTotal } = useWishlist();
+  const { getTotalItems: getCartTotal } = useCart();
+
   const menuItems = [
     { label: 'MEN', href: '/men' },
     { label: 'WOMEN', href: '/women' },
@@ -39,19 +43,37 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
         {/* Account Actions */}
         <div className="mt-16 space-y-6 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-          <div className="flex items-center space-x-4 text-gray-600">
+          <Link 
+            to="/account" 
+            onClick={onClose}
+            className="flex items-center space-x-4 text-gray-600 hover:text-black transition-colors"
+          >
             <User size={20} />
             <span className="body-lg">Account</span>
-          </div>
+          </Link>
           
-          <div className="flex items-center space-x-4 text-gray-600">
+          <Link 
+            to="/wishlist" 
+            onClick={onClose}
+            className="flex items-center space-x-4 text-gray-600 hover:text-black transition-colors"
+          >
             <Heart size={20} />
             <span className="body-lg">Wishlist</span>
-          </div>
+            {getWishlistTotal() > 0 && (
+              <span className="bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {getWishlistTotal()}
+              </span>
+            )}
+          </Link>
           
           <div className="flex items-center space-x-4 text-gray-600">
             <ShoppingBag size={20} />
             <span className="body-lg">Shopping Bag</span>
+            {getCartTotal() > 0 && (
+              <span className="bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {getCartTotal()}
+              </span>
+            )}
           </div>
         </div>
 

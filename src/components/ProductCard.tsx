@@ -1,19 +1,19 @@
-
 import React, { useState } from 'react';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const { addItem } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -24,7 +24,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   const price = product.salePrice || product.price;
@@ -62,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         >
           <Heart 
             size={16} 
-            className={isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-600'} 
+            className={isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'} 
           />
         </button>
 

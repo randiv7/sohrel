@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Search, User, Heart, ShoppingBag, Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
 
 interface HeaderProps {
@@ -12,6 +13,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onSearchToggle, onMenuToggle, isMenuOpen }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { getTotalItems, openCart } = useCart();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,18 +41,55 @@ const Header: React.FC<HeaderProps> = ({ onSearchToggle, onMenuToggle, isMenuOpe
 
           {/* Logo */}
           <div className="flex-1 md:flex-none text-center md:text-left">
-            <h1 className="heading-md font-thin tracking-[0.2em] animate-fade-in-up">
-              SOHREL
-            </h1>
+            <Link to="/">
+              <h1 className="heading-md font-thin tracking-[0.2em] animate-fade-in-up">
+                SOHREL
+              </h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-12">
-            <a href="#men" className="caption hover:text-gray-600 transition-colors">MEN</a>
-            <a href="#women" className="caption hover:text-gray-600 transition-colors">WOMEN</a>
-            <a href="#kids" className="caption hover:text-gray-600 transition-colors">KIDS</a>
-            <a href="#new" className="caption hover:text-gray-600 transition-colors">NEW</a>
-            <a href="#sale" className="caption hover:text-gray-600 transition-colors">SALE</a>
+            <Link 
+              to="/men" 
+              className={`caption hover:text-gray-600 transition-colors ${
+                location.pathname === '/men' ? 'text-black' : ''
+              }`}
+            >
+              MEN
+            </Link>
+            <Link 
+              to="/women" 
+              className={`caption hover:text-gray-600 transition-colors ${
+                location.pathname === '/women' ? 'text-black' : ''
+              }`}
+            >
+              WOMEN
+            </Link>
+            <Link 
+              to="/kids" 
+              className={`caption hover:text-gray-600 transition-colors ${
+                location.pathname === '/kids' ? 'text-black' : ''
+              }`}
+            >
+              KIDS
+            </Link>
+            <Link 
+              to="/new" 
+              className={`caption hover:text-gray-600 transition-colors ${
+                location.pathname === '/new' ? 'text-black' : ''
+              }`}
+            >
+              NEW
+            </Link>
+            <Link 
+              to="/sale" 
+              className={`caption hover:text-gray-600 transition-colors ${
+                location.pathname === '/sale' ? 'text-black' : ''
+              }`}
+            >
+              SALE
+            </Link>
           </nav>
 
           {/* Actions */}

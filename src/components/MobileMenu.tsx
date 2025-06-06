@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { User, Heart, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -9,11 +10,11 @@ interface MobileMenuProps {
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const menuItems = [
-    { label: 'MEN', href: '#men' },
-    { label: 'WOMEN', href: '#women' },
-    { label: 'KIDS', href: '#kids' },
-    { label: 'NEW', href: '#new' },
-    { label: 'SALE', href: '#sale' }
+    { label: 'MEN', href: '/men' },
+    { label: 'WOMEN', href: '/women' },
+    { label: 'KIDS', href: '/kids' },
+    { label: 'NEW', href: '/new' },
+    { label: 'SALE', href: '/sale' }
   ];
 
   return (
@@ -24,15 +25,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         {/* Navigation Links */}
         <nav className="space-y-8">
           {menuItems.map((item, index) => (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               onClick={onClose}
               className={`block heading-lg font-light tracking-wider hover:text-gray-600 transition-colors animate-fade-in-left`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
